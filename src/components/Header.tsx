@@ -1,10 +1,11 @@
 import {Link, Route, Switch} from "react-router-dom";
-import {FC, useState} from "react";
+import {FC} from "react";
 import React from 'react';
 import {language} from "../languages/language";
 import {useDispatch, useSelector} from "react-redux";
 import {selectLang} from "../redux/selectors/selectorLang";
 import {setLang} from "../redux/reducers/language";
+
 
 type THeaderProps = {
     currentEmail: string
@@ -27,7 +28,9 @@ const Header: FC<THeaderProps> = ({signOut, currentEmail}) => {
             <a href="#" target="_blank" className="logo"/>
             <div className="select__btn-wrapper">
                 <button className={`select__btn-ru ${selectedLang === 'ru' && 'select__btn-active'}`}
-                        onClick={() => langHandler('ru')}>ru</button>
+                        onClick={() =>{langHandler('ru')}
+
+                        }>ru</button>
                 <button className={`select__btn-fi ${selectedLang === 'fi' && 'select__btn-active'}`}
                         onClick={() => langHandler('fi')}>fi</button>
             </div>

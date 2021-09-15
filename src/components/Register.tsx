@@ -2,10 +2,10 @@ import {FC, useState} from "react";
 import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
-import {schema} from "../validation/schema";
 import {language} from "../languages/language";
 import {useSelector} from "react-redux";
 import {selectLang} from "../redux/selectors/selectorLang";
+import * as yup from "yup";
 
 
 
@@ -23,6 +23,23 @@ interface IFormInputs {
 
 const Register: FC<TRegister> = ({handleRegister}) => {
 
+    const {selectedLang} = useSelector(selectLang)
+
+    const schema = yup.object().shape({
+        Email: yup.string()
+            .email(`${selectedLang === 'ru' ? 'адрес электронной почты должен содержать символ @' : ''}
+            ${selectedLang === 'fi' ? 'Syötä kelvollinen sähköpostiosoite. Esim. erkki@tunnus.fi' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'Введите адрес электронной почты' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+        password: yup.string()
+            .min(8,`${selectedLang === 'ru' ? 'пароль должен содержать от 8 до 32 символов' : ''}
+            ${selectedLang === 'fi' ? 'vähentään 8 merkkiä' : ''}`)
+            .max(32,`${selectedLang === 'ru' ? 'пароль должен содержать от 8 до 32 символов' : ''}
+            ${selectedLang === 'fi' ? 'enintään 32 merkkiä' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'Введите адрес электронной почты' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`)
+    });
+
     const {register, formState: {errors}, handleSubmit} = useForm<IFormInputs>({
         resolver: yupResolver(schema),
         mode: "onBlur",
@@ -30,7 +47,6 @@ const Register: FC<TRegister> = ({handleRegister}) => {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const {selectedLang} = useSelector(selectLang)
     function onSubmit() {
         handleRegister(email, password)
     }

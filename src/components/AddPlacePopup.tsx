@@ -6,7 +6,7 @@ import {selectPopups} from "../redux/selectors/selectPopups";
 import {IPlace} from "../types/IPlace";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {addPlaceSchema} from "../validation/schema";
+import * as yup from "yup";
 import {selectLang} from "../redux/selectors/selectorLang";
 import {language} from "../languages/language";
 
@@ -22,6 +22,20 @@ interface IFormInputs {
 }
 
 const AddPlacePopup: FC<TAddPlacePopup> = (props) => {
+    const {selectedLang} = useSelector(selectLang)
+
+  const addPlaceSchema = yup.object().shape({
+        title: yup.string()
+            .min(2, `${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
+            ${selectedLang === 'fi' ? 'vähentään 2 merkkiä' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+        link: yup.string()
+            .url(`${selectedLang === 'ru' ? 'введите корректный URL' : ''}
+            ${selectedLang === 'fi' ? 'Syötä kelvollinen URL' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'введите URL' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+    });
 
     const {register, formState: {errors, isValid}, handleSubmit, reset} = useForm<IFormInputs>({
         resolver: yupResolver(addPlaceSchema),
@@ -31,8 +45,6 @@ const AddPlacePopup: FC<TAddPlacePopup> = (props) => {
     const {loadingBtn} = useSelector(selectCardSettings)
 
     const {isAddPlacePopupOpen} = useSelector(selectPopups)
-
-    const {selectedLang} = useSelector(selectLang)
 
     useEffect(() => {
         reset()

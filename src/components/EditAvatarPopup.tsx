@@ -6,7 +6,7 @@ import {selectCardSettings} from "../redux/selectors/selectCardSettings";
 import {IAvatar} from "../types/IAvatar";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {avatarPopupSchema} from "../validation/schema";
+import * as yup from "yup";
 import {selectLang} from "../redux/selectors/selectorLang";
 import {language} from "../languages/language";
 
@@ -21,13 +21,20 @@ interface IFormInputs {
 }
 
 const EditAvatarPopup: FC<TEditAvatarPopup> = (props) => {
+    const {selectedLang} = useSelector(selectLang)
+
+    const avatarPopupSchema = yup.object().shape({
+        avatar: yup.string()
+            .url(`${selectedLang === 'ru' ? 'введите корректный URL' : ''}
+            ${selectedLang === 'fi' ? 'Syötä kelvollinen URL' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'введите URL' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+    });
 
     const {register, formState: {errors, isValid}, handleSubmit, reset} = useForm<IFormInputs>({
         resolver: yupResolver(avatarPopupSchema),
         mode: "onChange",
     });
-
-    const {selectedLang} = useSelector(selectLang)
 
     const {isEditAvatarPopupOpen} = useSelector(selectPopups)
     const {loadingBtn} = useSelector(selectCardSettings)

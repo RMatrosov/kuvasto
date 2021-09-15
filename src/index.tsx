@@ -10,11 +10,13 @@ import store from "./redux/store";
 
 ReactDOM.render(
     <React.StrictMode>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App/>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <Provider store={store}>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </Provider>
         </BrowserRouter>
-      </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

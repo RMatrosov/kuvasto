@@ -7,7 +7,7 @@ import {selectCurrentUser} from "../redux/selectors/selectCurrentUser";
 import {IProfile} from "../types/currentUserAndEmailTypes";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {editProfilePopupSchema} from "../validation/schema";
+import * as yup from "yup";
 import {selectLang} from "../redux/selectors/selectorLang";
 import {language} from "../languages/language";
 
@@ -24,6 +24,21 @@ interface IFormInputs {
 
 const EditProfilePopup: FC<TEditProfilePopupProps> = (props) => {
 
+    const {selectedLang} = useSelector(selectLang)
+
+    const editProfilePopupSchema = yup.object().shape({
+        userName: yup.string()
+            .min(2, `${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
+            ${selectedLang === 'fi' ? 'vähentään 2 merkkiä' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+        description: yup.string()
+            .min(2, `${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
+            ${selectedLang === 'fi' ? 'vähentään 2 merkkiä' : ''}`)
+            .required(`${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
+            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+    });
+
     const {register, formState: {errors}, handleSubmit, setValue} = useForm<IFormInputs>({
         resolver: yupResolver(editProfilePopupSchema),
         mode: "onChange",
@@ -32,7 +47,6 @@ const EditProfilePopup: FC<TEditProfilePopupProps> = (props) => {
     const {user} = useSelector(selectCurrentUser)
     const {isEditProfilePopupOpen} = useSelector(selectPopups)
     const {loadingBtn} = useSelector(selectCardSettings)
-    const {selectedLang} = useSelector(selectLang)
 
     useEffect(() => {
         setValue("userName", user.name)
