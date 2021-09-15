@@ -1,0 +1,27 @@
+.select__btn-wrapper {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.select__btn-fi {
+    background: url(../../flags/finland-flag-icon-64.png) no-repeat;
+    background-size: cover;
+    font-size: 0;
+    width: 35px;
+    height: 25px;
+    margin-left: 5px;
+}
+
+.select__btn-ru {
+    background: url(../../flags/russia-flag-icon-256.png) no-repeat;
+    background-size: cover;
+    font-size: 0;
+    width: 35px;
+    height: 25px;
+}
+
+.select__btn-active {
+    border-radius: 50%;
+}
+

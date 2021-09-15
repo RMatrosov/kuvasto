@@ -1,0 +1,68 @@
+import PopupWithForm from "./PopupWithForm";
+import React, {FC, SyntheticEvent, useEffect} from "react";
+import {useSelector} from "react-redux";
+import {selectPopups} from "../redux/selectors/selectPopups";
+import {selectCardSettings} from "../redux/selectors/selectCardSettings";
+import {IAvatar} from "../types/IAvatar";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {avatarPopupSchema} from "../validation/schema";
+import {selectLang} from "../redux/selectors/selectorLang";
+import {language} from "../languages/language";
+
+
+type TEditAvatarPopup = {
+    onClose(event: SyntheticEvent): void
+    onUpdateAvatar: (avatar: IAvatar) => void
+}
+
+interface IFormInputs {
+    avatar: string
+}
+
+const EditAvatarPopup: FC<TEditAvatarPopup> = (props) => {
+
+    const {register, formState: {errors, isValid}, handleSubmit, reset} = useForm<IFormInputs>({
+        resolver: yupResolver(avatarPopupSchema),
+        mode: "onChange",
+    });
+
+    const {selectedLang} = useSelector(selectLang)
+
+    const {isEditAvatarPopupOpen} = useSelector(selectPopups)
+    const {loadingBtn} = useSelector(selectCardSettings)
+
+    useEffect(() => {
+        reset()
+    }, [reset, isEditAvatarPopupOpen]);
+
+    const onSubmit = handleSubmit(data => {
+        props.onUpdateAvatar({
+            avatar: data.avatar,
+        });
+    });
+
+    return (
+        <PopupWithForm isOpen={isEditAvatarPopupOpen}
+                       onClose={props.onClose}
+                       loadingBtn={loadingBtn}
+                       onSubmit={onSubmit}
+                       isValid={isValid}
+                       params={{
+                           name: 'type_avatar',
+                           title: `${language[selectedLang].editAvatarPopup.title}`,
+                           buttonText: `${language[selectedLang].editAvatarPopup.buttonText}`,
+                           buttonLoadingText: `${language[selectedLang].editAvatarPopup.buttonLoadingText}`,
+                           formName: "change-avatar"
+                       }}>
+
+            <input type="url" className="form__input" id="avatar"
+                   {...register("avatar", {required: true})}
+                   placeholder={language[selectedLang].editAvatarPopup.placeholderLink}/>
+            <p className="form__input-error avatar-input-error">{errors.avatar?.message}</p>
+
+        </PopupWithForm>
+    )
+}
+
+export default EditAvatarPopup
