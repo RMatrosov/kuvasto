@@ -2,11 +2,8 @@ import {FC, useState} from "react";
 import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
-import {language} from "../languages/language";
-import {useSelector} from "react-redux";
-import {selectLang} from "../redux/selectors/selectorLang";
 import * as yup from "yup";
-
+import {useTranslation} from "react-i18next";
 
 
 type TRegister = {
@@ -23,21 +20,16 @@ interface IFormInputs {
 
 const Register: FC<TRegister> = ({handleRegister}) => {
 
-    const {selectedLang} = useSelector(selectLang)
+    const {t} = useTranslation();
 
     const schema = yup.object().shape({
         Email: yup.string()
-            .email(`${selectedLang === 'ru' ? 'адрес электронной почты должен содержать символ @' : ''}
-            ${selectedLang === 'fi' ? 'Syötä kelvollinen sähköpostiosoite. Esim. erkki@tunnus.fi' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'Введите адрес электронной почты' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+            .email(t("addPlaceSchema.email"))
+            .required(t("addPlaceSchema.emailReq")),
         password: yup.string()
-            .min(8,`${selectedLang === 'ru' ? 'пароль должен содержать от 8 до 32 символов' : ''}
-            ${selectedLang === 'fi' ? 'vähentään 8 merkkiä' : ''}`)
-            .max(32,`${selectedLang === 'ru' ? 'пароль должен содержать от 8 до 32 символов' : ''}
-            ${selectedLang === 'fi' ? 'enintään 32 merkkiä' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'Введите адрес электронной почты' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`)
+            .min(8, t("addPlaceSchema.min832"))
+            .max(32, t("addPlaceSchema.min832"))
+            .required(t("addPlaceSchema.description"))
     });
 
     const {register, formState: {errors}, handleSubmit} = useForm<IFormInputs>({
@@ -47,13 +39,14 @@ const Register: FC<TRegister> = ({handleRegister}) => {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
     function onSubmit() {
         handleRegister(email, password)
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='log__in_wrapper' noValidate>
-            <h4 className='log__in_title'>{language[selectedLang].register.title}</h4>
+            <h4 className='log__in_title'>{t("register.title")}</h4>
             <input type="email" className="log__in_input"
                    placeholder='Email'
                    value={email || ''}
@@ -61,16 +54,16 @@ const Register: FC<TRegister> = ({handleRegister}) => {
                    onChange={(e) => setEmail(e.target.value)}
             />
             <p className='log__in_error'>{errors.Email?.message}</p>
-            <input type="password" className="log__in_input" placeholder={language[selectedLang].register.placeholder}
+            <input type="password" className="log__in_input" placeholder={t("register.placeholder")}
                    value={password || ''}
                    {...register("password", {required: true})}
                    onChange={(e) => setPassword(e.target.value)}
             />
             <p className='log__in_error'>{errors.password?.message}</p>
-            <button type='submit' className='log__in_button'>{language[selectedLang].register.buttonText}</button>
-            <p className='login__form_button-text'>{language[selectedLang].register.text}
+            <button type='submit' className='log__in_button'>{t("register.buttonText")}</button>
+            <p className='login__form_button-text'>{t("register.text")}
                 <Link to='/sign-in'>
-                    <button className='login__form_button'> {language[selectedLang].register.textBtn}</button>
+                    <button className='login__form_button'> {t("register.textBtn")}</button>
                 </Link>
             </p>
         </form>

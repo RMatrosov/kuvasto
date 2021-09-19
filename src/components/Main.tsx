@@ -46,8 +46,8 @@ const Main: FC<TMain> = ({onCardLike, onCardDelete}) => {
                 (<>
                     <section className="profile">
                         <div className="profile__wrapper">
-                            <div className="profile__image-wrapper">
-                                <img onClick={handleEditAvatarClick} src={user.avatar} alt="фото профиля"
+                            <div onClick={handleEditAvatarClick} className="profile__image-wrapper">
+                                <img src={user.avatar} alt="фото профиля"
                                      className="profile__image"/>
                                 <button className="profile__image-btn"/>
                             </div>

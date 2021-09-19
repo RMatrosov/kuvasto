@@ -3,7 +3,6 @@ import initialCards from "./initialCard";
 import currentUser from "./currentUser";
 import popups from "./popups";
 import cardSettings from "./cardSettings";
-import {langReducer} from "./language";
 
 export type RootReducerType = typeof rootReducer
 
@@ -12,7 +11,6 @@ const rootReducer = combineReducers({
     currentUser: currentUser,
     popups: popups,
     cardSettings: cardSettings,
-    langReducer:langReducer
 
 });
 

@@ -7,8 +7,7 @@ import {IAvatar} from "../types/IAvatar";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {selectLang} from "../redux/selectors/selectorLang";
-import {language} from "../languages/language";
+import {useTranslation} from "react-i18next";
 
 
 type TEditAvatarPopup = {
@@ -21,14 +20,12 @@ interface IFormInputs {
 }
 
 const EditAvatarPopup: FC<TEditAvatarPopup> = (props) => {
-    const {selectedLang} = useSelector(selectLang)
+    const {t} = useTranslation();
 
     const avatarPopupSchema = yup.object().shape({
         avatar: yup.string()
-            .url(`${selectedLang === 'ru' ? 'введите корректный URL' : ''}
-            ${selectedLang === 'fi' ? 'Syötä kelvollinen URL' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'введите URL' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+            .url(t("addPlaceSchema.link"))
+            .required(t("addPlaceSchema.linkReq")),
     });
 
     const {register, formState: {errors, isValid}, handleSubmit, reset} = useForm<IFormInputs>({
@@ -57,15 +54,15 @@ const EditAvatarPopup: FC<TEditAvatarPopup> = (props) => {
                        isValid={isValid}
                        params={{
                            name: 'type_avatar',
-                           title: `${language[selectedLang].editAvatarPopup.title}`,
-                           buttonText: `${language[selectedLang].editAvatarPopup.buttonText}`,
-                           buttonLoadingText: `${language[selectedLang].editAvatarPopup.buttonLoadingText}`,
+                           title: `${t("editAvatarPopup.title")}`,
+                           buttonText: `${t("editAvatarPopup.buttonText")}`,
+                           buttonLoadingText: `${t("editAvatarPopup.buttonLoadingText")}`,
                            formName: "change-avatar"
                        }}>
 
             <input type="url" className="form__input" id="avatar"
                    {...register("avatar", {required: true})}
-                   placeholder={language[selectedLang].editAvatarPopup.placeholderLink}/>
+                   placeholder={t("editAvatarPopup.placeholderLink")}/>
             <p className="form__input-error avatar-input-error">{errors.avatar?.message}</p>
 
         </PopupWithForm>

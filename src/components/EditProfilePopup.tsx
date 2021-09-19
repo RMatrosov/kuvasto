@@ -8,8 +8,7 @@ import {IProfile} from "../types/currentUserAndEmailTypes";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {selectLang} from "../redux/selectors/selectorLang";
-import {language} from "../languages/language";
+import {useTranslation} from "react-i18next";
 
 
 type TEditProfilePopupProps = {
@@ -24,19 +23,15 @@ interface IFormInputs {
 
 const EditProfilePopup: FC<TEditProfilePopupProps> = (props) => {
 
-    const {selectedLang} = useSelector(selectLang)
+    const {t} = useTranslation();
 
     const editProfilePopupSchema = yup.object().shape({
         userName: yup.string()
-            .min(2, `${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
-            ${selectedLang === 'fi' ? 'vähentään 2 merkkiä' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+            .min(2, t("addPlaceSchema.title"))
+            .required(t("addPlaceSchema.title")),
         description: yup.string()
-            .min(2, `${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
-            ${selectedLang === 'fi' ? 'vähentään 2 merkkiä' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+            .min(2, t("addPlaceSchema.title"))
+            .required(t("addPlaceSchema.description")),
     });
 
     const {register, formState: {errors}, handleSubmit, setValue} = useForm<IFormInputs>({
@@ -65,9 +60,9 @@ const EditProfilePopup: FC<TEditProfilePopupProps> = (props) => {
         <PopupWithForm isOpen={isEditProfilePopupOpen}
                        params={{
                            name: 'type_edit',
-                           title: `${language[selectedLang].editProfilePopup.title}`,
-                           buttonText: `${language[selectedLang].editProfilePopup.buttonText}`,
-                           buttonLoadingText: `${language[selectedLang].editProfilePopup.buttonLoadingText}`,
+                           title: `${t("editProfilePopup.title")}`,
+                           buttonText: `${t("editProfilePopup.buttonText")}`,
+                           buttonLoadingText: `${t("editProfilePopup.buttonLoadingText")}`,
                            formName: "edit-profile"
                        }}
                        onClose={props.onClose}
@@ -78,13 +73,13 @@ const EditProfilePopup: FC<TEditProfilePopupProps> = (props) => {
 
             <input className="form__input" type='text' id="name"
                    {...register("userName", {required: true})}
-                   placeholder={language[selectedLang].editProfilePopup.placeholderName}
+                   placeholder={t("editProfilePopup.placeholderName")}
             />
             <p className="form__input-error name-input-error">{errors.userName?.message}</p>
 
             <input type="text" className="form__input" id="description"
                    {...register("description", {required: true})}
-                   placeholder={language[selectedLang].editProfilePopup.placeholderLink}
+                   placeholder={t("editProfilePopup.placeholderLink")}
             />
             <p className="form__input-error job-input-error">{errors.description?.message}</p>
 

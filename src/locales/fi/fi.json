@@ -1,0 +1,48 @@
+{
+  "header": {
+    "singOut": "Kirjaudu ulos",
+    "singIn": "Luo tunnus",
+    "singUp": "Kirjaudu sisään"
+  },
+  "addPlacePopup": {
+    "title": "Uusi paikka",
+    "buttonText": "Luoda",
+    "buttonLoadingText": "Luoda...",
+    "placeholderName": "Nimi",
+    "placeholderLink": "Linkki"
+  },
+  "editAvatarPopup": {
+    "title": "Päivitä avatar",
+    "buttonText": "Luoda",
+    "buttonLoadingText": "Luoda...",
+    "placeholderLink": "Linkki"
+  },
+  "editProfilePopup": {
+    "title": "Muokata profiili",
+    "buttonText": "Luoda",
+    "buttonLoadingText": "Luoda...",
+    "placeholderName": "Kirjoita nimisi",
+    "placeholderLink": "Kirjoita ammattisi"
+  },
+  "login": {
+    "title": "Luo tunnus",
+    "buttonText": "Luo",
+    "placeholder": "Salasana"
+  },
+  "register": {
+    "title": "Kirjaudu sisään",
+    "buttonText": "Kirjaudu",
+    "placeholder": "Salasana",
+    "text": "Oletko jo kirjautunut?",
+    "textBtn": "Luo tunnus"
+  },
+  "addPlaceSchema": {
+    "title": "vähentään 2 merkkiä",
+    "link": "Syötä kelvollinen URL",
+    "linkReq" : "Pakollinen kenttä",
+    "description" : "Pakollinen kenttä",
+    "min832" : "vähentään 8 merkkiä ja enintään 32 merkkiä",
+    "email": "Syötä kelvollinen sähköpostiosoite. Esim. erkki@tunnus.fi",
+    "emailReq": "Pakollinen kenttä"
+  }
+}

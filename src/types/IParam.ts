@@ -1,9 +1,9 @@
-import {ILanguage} from "../languages/language";
+
 
 export interface IParam {
     name: string
-    title: string | ILanguage
-    buttonText: string | ILanguage
-    buttonLoadingText: string | ILanguage
+    title: string
+    buttonText: string
+    buttonLoadingText: string
     formName: string
 }

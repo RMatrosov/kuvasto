@@ -7,8 +7,7 @@ import {IPlace} from "../types/IPlace";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {selectLang} from "../redux/selectors/selectorLang";
-import {language} from "../languages/language";
+import {useTranslation} from "react-i18next";
 
 
 type TAddPlacePopup = {
@@ -22,24 +21,20 @@ interface IFormInputs {
 }
 
 const AddPlacePopup: FC<TAddPlacePopup> = (props) => {
-    const {selectedLang} = useSelector(selectLang)
+    const {t} = useTranslation();
 
-  const addPlaceSchema = yup.object().shape({
+    const addPlaceSchema = yup.object().shape({
         title: yup.string()
-            .min(2, `${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
-            ${selectedLang === 'fi' ? 'vähentään 2 merkkiä' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'минимум 2 символа' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+            .min(2, t("addPlaceSchema.title"))
+            .required(t("addPlaceSchema.title")),
         link: yup.string()
-            .url(`${selectedLang === 'ru' ? 'введите корректный URL' : ''}
-            ${selectedLang === 'fi' ? 'Syötä kelvollinen URL' : ''}`)
-            .required(`${selectedLang === 'ru' ? 'введите URL' : ''}
-            ${selectedLang === 'fi' ? 'Pakollinen kenttä' : ''}`),
+            .url(t("addPlaceSchema.link"))
+            .required(t("addPlaceSchema.linkReq")),
     });
 
     const {register, formState: {errors, isValid}, handleSubmit, reset} = useForm<IFormInputs>({
         resolver: yupResolver(addPlaceSchema),
-        mode: "onChange",
+        mode: "onBlur",
     });
 
     const {loadingBtn} = useSelector(selectCardSettings)
@@ -62,9 +57,9 @@ const AddPlacePopup: FC<TAddPlacePopup> = (props) => {
         <PopupWithForm isOpen={isAddPlacePopupOpen}
                        params={{
                            name: 'new-card',
-                           title: `${language[selectedLang].addPlacePopup.title}`,
-                           buttonText: `${language[selectedLang].addPlacePopup.buttonText}`,
-                           buttonLoadingText: `${language[selectedLang].addPlacePopup.buttonLoadingText}`,
+                           title: `${t("addPlacePopup.title")}`,
+                           buttonText: `${t("addPlacePopup.buttonText")}`,
+                           buttonLoadingText: `${t("addPlacePopup.buttonLoadingText")}`,
                            formName: "new-card"
                        }}
 
@@ -72,22 +67,19 @@ const AddPlacePopup: FC<TAddPlacePopup> = (props) => {
                        onSubmit={onSubmit}
                        isValid={isValid}
                        loadingBtn={loadingBtn}
-                       >
-
+        >
 
             <input type="text"
                    {...register("title", {required: true})}
                    className="form__input" id="title"
-                   placeholder={language[selectedLang].addPlacePopup.placeholderName}/>
+                   placeholder={t("addPlacePopup.placeholderName")}/>
             <p className='title-input-error form__input-error'>{errors.title?.message}</p>
 
             <input type="url" className="form__input"
                    {...register("link", {required: true})}
                    name="link" id="link"
-                   placeholder={language[selectedLang].addPlacePopup.placeholderLink}/>
+                   placeholder={t("addPlacePopup.placeholderLink")}/>
             <p className='link-input-error form__input-error'>{errors.link?.message}</p>
-
-
 
         </PopupWithForm>
     )

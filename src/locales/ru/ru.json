@@ -1,0 +1,48 @@
+{
+  "header": {
+    "singOut": "Выйти",
+    "singIn": "Войти",
+    "singUp": "Регистрация"
+  },
+  "addPlacePopup": {
+    "title": "Новое место",
+    "buttonText": "Создать",
+    "buttonLoadingText": "Создать...",
+    "placeholderName": "Название",
+    "placeholderLink": "Ссылка на картинку"
+  },
+  "editAvatarPopup": {
+    "title": "Обновить аватар",
+    "buttonText": "Сохранить",
+    "buttonLoadingText": "Сохранить...",
+    "placeholderLink": "Ссылка на картинку"
+  },
+  "editProfilePopup": {
+    "title": "Редактировать профиль",
+    "buttonText": "Сохранить",
+    "buttonLoadingText": "Сохранить...",
+    "placeholderName": "Введите имя",
+    "placeholderLink": "Введите род занятия"
+  },
+  "login": {
+    "title": "Вход",
+    "buttonText": "Войти",
+    "placeholder": "Пароль"
+  },
+  "register": {
+    "title": "Регистрация",
+    "buttonText": "Зарегистрироваться",
+    "placeholder": "Пароль",
+    "text": "Уже зарегистрированы?",
+    "textBtn": "Войти"
+  },
+  "addPlaceSchema": {
+    "title": "минимум 2 символа",
+    "link": "введите корректный URL",
+    "linkReq" : "введите URL",
+    "description" : "обязательное поле",
+    "min832" : "пароль должен содержать от 8 до 32 символов",
+    "email": "адрес электронной почты должен содержать символ @",
+    "emailReq": "Введите адрес электронной почты"
+  }
+}
